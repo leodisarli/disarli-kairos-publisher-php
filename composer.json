@@ -1,0 +1,46 @@
+{
+    "name": "disarli/kairos-pusher-php",
+    "description": "PHP library to publish messages to Kairos.",
+    "version": "1.0.0",
+    "type": "library",
+    "require": {
+        "php" : "^7.0",
+        "predis/predis": "~1.1.0",
+        "ramsey/uuid": "~3.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.0.0",
+        "mockery/mockery": "~1.2.0",
+        "squizlabs/php_codesniffer": "3.2"
+    },
+    "authors": [
+        {
+            "name": "Leonardo Di Sarli",
+            "email": "leosarli@gmail.com"
+        }
+    ],
+    "conflict": {
+        "phpunit/php-timer": ">=2"
+    },
+    "autoload": {
+        "psr-4": {
+            "KairosPublisher\\": "src/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "bash contrib/setup.sh"
+        ],
+        "check" : [
+            "@lint",
+            "@cs",
+            "@test"
+        ],
+        "lint" : [
+            "find ./src -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0"
+        ],
+        "cs" : "vendor/bin/phpcs",
+        "test" : "vendor/bin/phpunit",
+        "test-xml" : "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage/coverage.xml --log-junit junit.xml"
+    }
+}
