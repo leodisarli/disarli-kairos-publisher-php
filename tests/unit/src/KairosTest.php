@@ -1,6 +1,7 @@
 <?php
 
 use KairosPublisher\Kairos;
+use KairosPublisher\ValidateConfig;
 
 class KairosTest extends PHPUnit_Framework_TestCase
 {
@@ -57,9 +58,17 @@ class KairosTest extends PHPUnit_Framework_TestCase
                 'port'   => 6380,
             ]
         ];
+        $obj = new \stdClass();
+        $resultConnections = [
+            $obj,
+            $obj,
+        ];
+        $resultPublish = [
+            'success',
+            'success',
+        ];
         $channel = 'test';
         $message = '{"data":"message"}';
-        $obj = new \stdClass();
 
         $kairosPartialMock = Mockery::mock(Kairos::class)->makePartial();
         $kairosPartialMock->shouldReceive('newConections')
@@ -71,22 +80,48 @@ class KairosTest extends PHPUnit_Framework_TestCase
         $publisherMock->shouldReceive('publish')
             ->once()
             ->withAnyArgs()
+            ->andReturn($resultPublish);
+
+        $validateConfigMock = Mockery::mock(ValidateConfig::class);
+        $validateConfigMock->shouldReceive('validate')
+            ->once()
+            ->withAnyArgs()
             ->andReturn(true);
 
         $kairosPartialMock->shouldReceive('createConnections')
             ->once()
             ->withAnyArgs()
-            ->andReturn($obj);
+            ->andReturn($resultConnections);
 
         $kairosPartialMock->shouldReceive('newPublisher')
             ->once()
             ->withAnyArgs()
             ->andReturn($publisherMock);
 
+        $kairosPartialMock->shouldReceive('newValidateConfig')
+            ->once()
+            ->withNoArgs()
+            ->andReturn($validateConfigMock);
+
         $kairosPartialMock->connect($config);
         $result = $kairosPartialMock->publish($channel, $message);
-        $this->assertInternalType('bool', $result);
-        $this->assertEquals(true, $result);
+        $this->assertInternalType('array', $result);
+        $this->assertEquals('success', $result[0]);
+        $this->assertEquals('success', $result[1]);
+    }
+
+    /**
+     * @covers \KairosPublisher\Kairos::publish
+     * @expectedException KairosPublisher\Exception\NoPublisherException
+     */
+    public function testPublishEmptyPublisher()  
+    {
+        $channel = 'test';
+        $message = '{"data":"message"}';
+
+        $kairosPartialMock = Mockery::mock(Kairos::class)->makePartial();
+
+        $result = $kairosPartialMock->publish($channel, $message);
     }
 
     public function tearDown()

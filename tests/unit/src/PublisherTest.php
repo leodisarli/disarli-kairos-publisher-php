@@ -11,15 +11,9 @@ class PublisherTest extends PHPUnit_Framework_TestCase
      */
     public function testPublish()  
     {
-        $config = [
-            [
-                'host'   => 'localhost',
-                'port'   => 6379,
-            ],
-            [
-                'host'   => 'localhost',
-                'port'   => 6380,
-            ]
+        $resultPublish = [
+            'success',
+            'success',
         ];
         $channel = 'test';
         $message = '{"data":"message"}';
@@ -28,15 +22,16 @@ class PublisherTest extends PHPUnit_Framework_TestCase
         $connectionsMock->shouldReceive('publish')
             ->twice()
             ->withAnyArgs()
-            ->andReturn(true);
+            ->andReturn($resultPublish);
         $connections = [
             $connectionsMock,
             $connectionsMock,
         ];
         $publisher = new Publisher($connections);
         $result = $publisher->publish($channel, $message);
-        $this->assertInternalType('bool', $result);
-        $this->assertEquals(true, $result);
+        $this->assertInternalType('array', $result);
+        $this->assertEquals('success', $result[0]);
+        $this->assertEquals('success', $result[1]);
     }
 
     /**
@@ -45,15 +40,9 @@ class PublisherTest extends PHPUnit_Framework_TestCase
      */
     public function testPublishException()  
     {
-        $config = [
-            [
-                'host'   => 'localhost',
-                'port'   => 6379,
-            ],
-            [
-                'host'   => 'localhost',
-                'port'   => 6380,
-            ]
+        $resultPublish = [
+            'fail',
+            'fail',
         ];
         $channel = 'test';
         $message = '{"data":"message"}';
@@ -69,8 +58,35 @@ class PublisherTest extends PHPUnit_Framework_TestCase
         ];
         $publisher = new Publisher($connections);
         $result = $publisher->publish($channel, $message);
-        $this->assertInternalType('bool', $result);
-        $this->assertEquals(true, $result);
+        $this->assertInternalType('array', $result);
+        $this->assertEquals('fail', $result[0]);
+        $this->assertEquals('fail', $result[1]);
+    }
+
+    /**
+     * @covers \KairosPublisher\Publisher::__construct
+     * @covers \KairosPublisher\Publisher::getResponse
+     */
+    public function testGetResponse()  
+    {
+        $connections = [];
+        $publisher = new Publisher($connections);
+        $result = $publisher->getResponse();
+        $this->assertInternalType('string', $result);
+        $this->assertEquals('success', $result);
+    }
+
+    /**
+     * @covers \KairosPublisher\Publisher::__construct
+     * @covers \KairosPublisher\Publisher::getResponse
+     */
+    public function testGetResponseFail()  
+    {
+        $connections = [];
+        $publisher = new Publisher($connections);
+        $result = $publisher->getResponse(false);
+        $this->assertInternalType('string', $result);
+        $this->assertEquals('fail', $result);
     }
 
     public function tearDown()

@@ -6,9 +6,18 @@ class ConnectionsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers \KairosPublisher\Connections::__construct
+     */
+    public function testCanBeInstanciated()
+    {
+        $config = [];
+        $connections = new Connections($config);
+        $this->assertInstanceOf(Connections::class, $connections);
+    }
+
+    /**
      * @covers \KairosPublisher\Connections::createConnections
      */
-    public function testCreateConnections()  
+    public function testCreateConnections()
     {
         $config = [
             [
@@ -21,7 +30,7 @@ class ConnectionsTest extends PHPUnit_Framework_TestCase
             ]
         ];
         $client = new \stdClass();
-        $connectionsPartialMock = Mockery::mock(Connections::class, $config)->makePartial();
+        $connectionsPartialMock = Mockery::mock(Connections::class, [$config])->makePartial();
         $connectionsPartialMock->shouldReceive('newClient')
             ->twice()
             ->withAnyArgs()

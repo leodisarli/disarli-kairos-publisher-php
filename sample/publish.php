@@ -19,5 +19,6 @@ $redis->connect($config);
 
 $channel = 'test';
 $message = '{"data":"message"}';
-$redis->publish($channel, $message);
+$result = $redis->publish($channel, $message);
+print_r($result);
 
