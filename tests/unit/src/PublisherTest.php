@@ -9,7 +9,7 @@ class PublisherTest extends PHPUnit_Framework_TestCase
      * @covers \KairosPublisher\Publisher::__construct
      * @covers \KairosPublisher\Publisher::publish
      */
-    public function testPublish()  
+    public function testPublish()
     {
         $resultPublish = [
             'success',
@@ -38,7 +38,7 @@ class PublisherTest extends PHPUnit_Framework_TestCase
      * @covers \KairosPublisher\Publisher::__construct
      * @covers \KairosPublisher\Publisher::publish
      */
-    public function testPublishException()  
+    public function testPublishException()
     {
         $resultPublish = [
             'fail',
@@ -67,7 +67,7 @@ class PublisherTest extends PHPUnit_Framework_TestCase
      * @covers \KairosPublisher\Publisher::__construct
      * @covers \KairosPublisher\Publisher::getResponse
      */
-    public function testGetResponse()  
+    public function testGetResponse()
     {
         $connections = [];
         $publisher = new Publisher($connections);
@@ -80,7 +80,7 @@ class PublisherTest extends PHPUnit_Framework_TestCase
      * @covers \KairosPublisher\Publisher::__construct
      * @covers \KairosPublisher\Publisher::getResponse
      */
-    public function testGetResponseFail()  
+    public function testGetResponseFail()
     {
         $connections = [];
         $publisher = new Publisher($connections);

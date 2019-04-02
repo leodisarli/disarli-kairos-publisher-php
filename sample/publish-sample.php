@@ -14,11 +14,14 @@ $config = [
         'port'   => 6380,
     ]
 ];
+$channel = 'test';
+$msg = [
+    'data' => 'message',
+];
+
 $redis = new Kairos();
 $redis->connect($config);
+$result = $redis->publish($channel, $msg);
 
-$channel = 'test';
-$message = '{"data":"message"}';
-$result = $redis->publish($channel, $message);
 print_r($result);
 

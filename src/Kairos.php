@@ -33,15 +33,45 @@ class Kairos
      * publish a message on a channel to all redis connections and return an array with
      *  results
      * @param string $channel
-     * @param string $message
+     * @param array $message
      * @return array
      */
-    public function publish(string $channel, string $message): array
+    public function publish(string $channel, array $message): array
     {
         if (empty($this->publisher)) {
             throw new NoPublisherException();
         }
-        return $this->publisher->publish($channel, $message);
+        $uuid = $this->generateUuid();
+        $message = $this->addUuidToMessage($message, $uuid);
+        $jsonMessage = json_encode($message);
+        $result = $this->publisher->publish($channel, $jsonMessage);
+        $result = [
+            $uuid => $result,
+        ];
+        return $result;
+    }
+
+    /**
+     * method addUuidToMessage
+     * return the message with uuid
+     * @return array
+     */
+    public function addUuidToMessage(array $message, string $uuid) : array
+    {
+        return [
+            $uuid => $message,
+        ];
+    }
+
+    /**
+     * method generateUuid
+     * generate an unique uuid
+     * @return string
+     */
+    public function generateUuid() : string
+    {
+        $uuid = $this->newUuid();
+        return $uuid->uuid4();
     }
 
     /**
@@ -80,5 +110,17 @@ class Kairos
     public function newValidateConfig()
     {
         return new ValidateConfig();
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * method newUuid
+     * create and return new newUuid object
+     * (should not contain any logic, just instantiate the object and return it)
+     * @return KairosPublisher\Uuid
+     */
+    public function newUuid()
+    {
+        return new Uuid();
     }
 }

@@ -39,7 +39,7 @@ class ValidateConfig
     public function validateNotEmptyConfig(array $config)
     {
         if (empty($config)) {
-            $message = "config is empty";
+            $message = 'config is empty';
             throw new ValidationException($message);
         }
         return true;
@@ -55,11 +55,11 @@ class ValidateConfig
     public function validateHasKeys(array $connect)
     {
         if (!array_key_exists('host', $connect)) {
-            $message = "config missing host key";
+            $message = 'config missing host key';
             throw new ValidationException($message);
         }
         if (!array_key_exists('port', $connect)) {
-            $message = "config missing port key";
+            $message = 'config missing port key';
             throw new ValidationException($message);
         }
         return true;
@@ -75,11 +75,11 @@ class ValidateConfig
     public function validateNotEmptyKeys(array $connect)
     {
         if (empty($connect['host'])) {
-            $message = "config empty host key";
+            $message = 'config empty host key';
             throw new ValidationException($message);
         }
         if (empty($connect['port'])) {
-            $message = "config empty port key";
+            $message = 'config empty port key';
             throw new ValidationException($message);
         }
         return true;
@@ -113,8 +113,8 @@ class ValidateConfig
      */
     public function validatePort(int $port)
     {
-        if ($port < 1) {
-            $message = "config port {$port} must be a number greater then 0";
+        if ($port < 6379 || $port > 6389) {
+            $message = "config port {$port} must be a number between 6379 and 6389";
             throw new ValidationException($message);
         }
         return true;

@@ -13,6 +13,7 @@
 	<encoding>UTF-8</encoding>
 
 	<file>src</file>
+	<file>tests</file>
 
 	<rule ref="Generic.PHP.ForbiddenFunctions">
 		<properties>
