@@ -7,10 +7,15 @@ use Ramsey\Uuid\Generator\CombGenerator;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 use Ramsey\Uuid\UuidFactory;
 
+/**
+ * class Uuid
+ * generate and validate uuid hashs based on Ramsey/Uuid lib
+ */
 class Uuid
 {
     /**
-     * Generate uuid hash
+     * method uuid4
+     * generate uuid hash
      * @return string
      */
     public function uuid4() : string
@@ -24,7 +29,8 @@ class Uuid
     }
 
     /**
-     * Verify if uuid4 hash is valid
+     * method isValid
+     * verify if uuid4 hash is valid
      * @param string $uuid
      * @return bool
      */

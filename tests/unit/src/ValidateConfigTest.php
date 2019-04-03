@@ -137,7 +137,7 @@ class ValidateConfigTest extends PHPUnit_Framework_TestCase
      * @covers \KairosPublisher\ValidateConfig::validatePort
      * @expectedException \KairosPublisher\Exception\ValidationException
      * @expectedExceptionCode 422
-     * @expectedExceptionMessage config port 80 must be a number between 6379 and 6389
+     * @expectedExceptionMessage config port 80 must be a number between 6370 and 6390
      */
     public function testValidatePort()
     {

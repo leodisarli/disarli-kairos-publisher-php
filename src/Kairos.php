@@ -6,7 +6,7 @@ use KairosPublisher\Exception\NoPublisherException;
 
 /**
  * class Kairos
- * main class to publish messages on kairos channels
+ * main package class to publish messages on kairos channels
  */
 class Kairos
 {
@@ -14,7 +14,8 @@ class Kairos
 
     /**
      * method connect
-     * connect to all redis provided by config array and set then to $this->publisher
+     * connect to all redis provided by config
+     *  array and set then to $this->publisher
      * @param array $config
      * @return bool
      */
@@ -30,14 +31,16 @@ class Kairos
 
     /**
      * method publish
-     * publish a message on a channel to all redis connections and return an array with
-     *  results
+     * publish a message on a channel to all redis
+     *  connections and return an array with results
      * @param string $channel
      * @param array $message
      * @return array
      */
-    public function publish(string $channel, array $message): array
-    {
+    public function publish(
+        string $channel,
+        array $message
+    ): array {
         if (empty($this->publisher)) {
             throw new NoPublisherException();
         }
@@ -56,8 +59,10 @@ class Kairos
      * return the message with uuid
      * @return array
      */
-    public function addUuidToMessage(array $message, string $uuid) : array
-    {
+    public function addUuidToMessage(
+        array $message,
+        string $uuid
+    ) : array {
         return [
             $uuid => $message,
         ];

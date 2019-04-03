@@ -24,4 +24,3 @@ $redis->connect($config);
 $result = $redis->publish($channel, $msg);
 
 print_r($result);
-

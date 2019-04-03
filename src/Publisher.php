@@ -4,14 +4,14 @@ namespace KairosPublisher;
 
 /**
  * class Publisher
- * Publish on messages on kairos channels
+ * publish on messages to kairos channels on each available redis
  */
 class Publisher
 {
     private $connections;
 
     /**
-     * Constructor
+     * constructor
      * @param array $connections
      */
     public function __construct(
@@ -22,13 +22,15 @@ class Publisher
 
     /**
      * method publish
-     * public a message to a channel on redis
+     * public a message to a channel on each available redis
      * @param string $channel
      * @param string $message
      * @return array
      */
-    public function publish(string $channel, string $message) : array
-    {
+    public function publish(
+        string $channel,
+        string $message
+    ) : array {
         $result = [];
         foreach ($this->connections as $key => $connection) {
             try {
@@ -43,7 +45,7 @@ class Publisher
 
     /**
      * method getResponse
-     * add a response of publishing
+     * return the response of publishing
      * @param bool $success
      * @return string
      */
