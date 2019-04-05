@@ -48,10 +48,9 @@ class Kairos
         $message = $this->addUuidToMessage($message, $uuid);
         $jsonMessage = json_encode($message);
         $result = $this->publisher->publish($channel, $jsonMessage);
-        $result = [
+        return [
             $uuid => $result,
         ];
-        return $result;
     }
 
     /**
