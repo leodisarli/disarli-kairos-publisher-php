@@ -10,7 +10,6 @@ class ValidateConfigTest extends PHPUnit_Framework_TestCase
      * @covers \KairosPublisher\ValidateConfig::validateNotEmptyConfig
      * @covers \KairosPublisher\ValidateConfig::validateHasKeys
      * @covers \KairosPublisher\ValidateConfig::validateNotEmptyKeys
-     * @covers \KairosPublisher\ValidateConfig::validateUrl
      * @covers \KairosPublisher\ValidateConfig::validatePort
      */
     public function testValidateTrue()
@@ -109,39 +108,14 @@ class ValidateConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \KairosPublisher\ValidateConfig::validateUrl
-     */
-    public function testValidateUrlValidUrl()
-    {
-        $url = 'https://ec2-sample-url.compute-1.amazonaws.com';
-        $validateConfig = new ValidateConfig();
-        $result = $validateConfig->validateUrl($url);
-        $this->assertInternalType('bool', $result);
-        $this->assertEquals(true, $result);
-    }
-
-    /**
-     * @covers \KairosPublisher\ValidateConfig::validateUrl
-     * @expectedException \KairosPublisher\Exception\ValidationException
-     * @expectedExceptionCode 422
-     * @expectedExceptionMessage config url invalidurl is not a valid url
-     */
-    public function testValidateUrlInvalidUrl()
-    {
-        $url = 'invalidurl';
-        $validateConfig = new ValidateConfig();
-        $validateConfig->validateUrl($url);
-    }
-
-    /**
      * @covers \KairosPublisher\ValidateConfig::validatePort
      * @expectedException \KairosPublisher\Exception\ValidationException
      * @expectedExceptionCode 422
-     * @expectedExceptionMessage config port 80 must be a number between 6370 and 6390
+     * @expectedExceptionMessage config port -1 must be a valid port
      */
     public function testValidatePort()
     {
-        $port = 80;
+        $port = -1;
         $validateConfig = new ValidateConfig();
         $validateConfig->validatePort($port);
     }

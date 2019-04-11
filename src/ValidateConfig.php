@@ -24,7 +24,6 @@ class ValidateConfig
         foreach ($config as $connection) {
             $this->validateHasKeys($connection);
             $this->validateNotEmptyKeys($connection);
-            $this->validateUrl($connection['host']);
             $this->validatePort($connection['port']);
         }
         return true;
@@ -90,26 +89,6 @@ class ValidateConfig
     }
 
     /**
-     * method validateUrl
-     * validate if host connection key on config is a valid url,
-     *  throw validation exception or return true
-     * @param string $url
-     * @throws KairosPublisher\Exception\ValidationException
-     * @return bool
-     */
-    public function validateUrl(string $url)
-    {
-        if ($url === 'localhost') {
-            return true;
-        }
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            $message = "config url {$url} is not a valid url";
-            throw new ValidationException($message);
-        }
-        return true;
-    }
-
-    /**
      * method validatePort
      * validate if port connection key on config is a valid port
      *  throw validation exception or return true
@@ -119,8 +98,8 @@ class ValidateConfig
      */
     public function validatePort(int $port)
     {
-        if ($port < 6370 || $port > 6390) {
-            $message = "config port {$port} must be a number between 6370 and 6390";
+        if ($port < 1 || $port > 65535) {
+            $message = "config port {$port} must be a valid port";
             throw new ValidationException($message);
         }
         return true;
