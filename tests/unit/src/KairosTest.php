@@ -142,9 +142,9 @@ class KairosTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \KairosPublisher\Kairos::addUuidToMessage
+     * @covers \KairosPublisher\Kairos::prepareMessageToSent
      */
-    public function testAddUuidToMessage()
+    public function testPrepareMessageToSent()
     {
         $uuid = 'a7ad790d-fad1-4c2e-8fa9-e0f0565af546';
         $message = [
@@ -152,9 +152,14 @@ class KairosTest extends PHPUnit_Framework_TestCase
         ];
 
         $kairos = new Kairos();
-        $result = $kairos->addUuidToMessage($message, $uuid);
+        $result = $kairos->prepareMessageToSent($message, $uuid);
         $this->assertInternalType('array', $result);
-        $this->assertArrayHasKey($uuid, $result);
+        $this->assertArrayHasKey('id', $result);
+        $this->assertArrayHasKey('sent_in', $result);
+        $this->assertArrayHasKey('timestamp', $result);
+        $this->assertArrayHasKey('message', $result);
+        $this->assertEquals($uuid, $result['id']);
+        $this->assertEquals($message, $result['message']);
     }
 
     /**

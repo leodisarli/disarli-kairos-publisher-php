@@ -45,7 +45,7 @@ class Kairos
             throw new NoPublisherException();
         }
         $uuid = $this->generateUuid();
-        $message = $this->addUuidToMessage($message, $uuid);
+        $message = $this->prepareMessageToSent($message, $uuid);
         $jsonMessage = json_encode($message);
         $result = $this->publisher->publish($channel, $jsonMessage);
         return [
@@ -54,16 +54,19 @@ class Kairos
     }
 
     /**
-     * method addUuidToMessage
-     * return the message with uuid
+     * method prepareMessageToSent
+     * return the message with uuid, date and timestamp
      * @return array
      */
-    public function addUuidToMessage(
+    public function prepareMessageToSent(
         array $message,
         string $uuid
     ) : array {
         return [
-            $uuid => $message,
+            'id' => $uuid,
+            'message' => $message,
+            'sent_in' => date('Y-m-d H:i:s'),
+            'timestamp' => time(),
         ];
     }
 
