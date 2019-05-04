@@ -42,6 +42,8 @@
         ],
         "cs" : "vendor/bin/phpcs",
         "test" : "vendor/bin/phpunit",
-        "test-xml" : "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage/coverage.xml --log-junit junit.xml"
+        "test-xml" : "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage/coverage.xml --log-junit junit.xml",
+        "sonar" : "bash contrib/sonar.sh",
+        "sonar-changes" : "bash contrib/sonar-changes.sh"
     }
 }
